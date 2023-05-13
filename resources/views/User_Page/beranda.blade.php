@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="{{ asset('css/overlay.css') }}">
     <title>Beranda</title>
 
     <!-- Logo Title Bar -->
-    <link rel="icon" href="images/logofanny.png" type="image/x-icon" class="LOGO">
+    <link rel="icon" href="{{ asset('images/logofanny.png') }}" type="image/x-icon" class="LOGO">
 
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- font google -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -38,7 +38,7 @@
 
 <body>
 
-@include('includes.user_header')
+    @include('includes.user_header')
 
     <div class="hero">
 
@@ -64,22 +64,22 @@
         <div class="box-container">
 
             <a href="category.php?category=Makeup" class="box">
-                <img src="images/cat-makeup.png" alt="">
+                <img src="{{ asset('images/cat-makeup.png') }}" alt="">
                 <h3>Makeup</h3>
             </a>
 
             <a href="category.php?category=Paket Wedding" class="box">
-                <img src="images/cat-paket wedding.png" alt="">
+                <img src="{{ asset('images/cat-paket wedding.png') }}" alt="">
                 <h3>Paket Wedding</h3>
             </a>
 
             <a href="category.php?category=Extra Wedding" class="box">
-                <img src="images/cat-extra.png" alt="">
+                <img src="{{ asset('images/cat-extra.png') }}" alt="">
                 <h3>Extra Wedding</h3>
             </a>
 
             <a href="category.php?category=Paket Foto" class="box">
-                <img src="images/cat-foto.png" alt="">
+                <img src="{{ asset('images/cat-foto.png') }}" alt="">
                 <h3>Paket Foto</h3>
             </a>
 
@@ -187,7 +187,7 @@
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
     <!-- custom js file link  -->
-    <script src="js/script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 
     <script>
         var swiper = new Swiper(".hero-slider", {
@@ -204,7 +204,7 @@
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
     <!-- custom js file link  -->
-    <script src="js/script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 
     <script>
         var swiper = new Swiper(".info-slider", {
