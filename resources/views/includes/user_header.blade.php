@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="{{ asset('css/head.css') }}">
 </head>
 
 <body>
@@ -15,7 +15,8 @@
         <section class="flex">
 
             <a class="logo" href="index.php">
-                <img class="z" src="images/logofanny.png" width="35" height="35"> &nbsp; Fanny Wedding
+                <img class="z" src="{{ asset('images/logofanny.png') }}" width="35" height="35"> &nbsp;
+                Fanny Wedding
                 Organizer
             </a>
 
@@ -29,7 +30,7 @@
             </nav>
 
             <div class="icons">
-               
+
                 <a href="search.php"><i class="fas fa-search"></i></a>
                 <a href="cart.php"><i class="fas fa-shopping-cart"></i><span>()</span></a>
                 <div id="user-btn" class="fas fa-user"></div>
@@ -37,7 +38,7 @@
             </div>
 
             <div class="profile">
-               
+
                 <p class="name">Ceritanya</p>
                 <div class="flex">
                     <a href="profile.php" class="btn">Profil</a>
