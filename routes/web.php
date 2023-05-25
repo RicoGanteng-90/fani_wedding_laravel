@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('user_page/beranda');
-});
-
-Route::get('/kontak', function () {
-    return view('user_page/kontak');
+    return view('admin_login');
 });
 
 Route::get('/login', function () {

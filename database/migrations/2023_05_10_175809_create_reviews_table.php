@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->index()->foreignId('user_id')->references('id')->on('users')->Constrained()->CascadeOnUpdate()->CascadeOnDelete();
-            $table->string('name');
+            $table->string('name', 100);
             $table->string('review');
             $table->string('category');
             $table->timestamps();
+
+
         });
     }
 
