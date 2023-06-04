@@ -1,40 +1,3 @@
-<?php
-
-include '../components/connect.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
-};
-
-if(isset($_POST['update'])){
-
-   $id = $_POST['id'];
-   $id = filter_var($id, FILTER_SANITIZE_STRING);
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING); 
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
-   $number = $_POST['number'];
-   $number = filter_var($number, FILTER_SANITIZE_STRING);
-   $keterangan = $_POST['keterangan'];
-   $keterangan = filter_var($keterangan, FILTER_SANITIZE_STRING);
-   $address = $_POST['address'];
-   $address = filter_var($address, FILTER_SANITIZE_STRING);
-
-   $update_partners = $conn->prepare("UPDATE `partners` SET name = ?, email = ?, number = ?, keterangan = ?, address = ? WHERE id = ?");
-   $update_partners->execute([$name, $email, $number, $keterangan, $address, $id]);
-
-   $message[] = 'partner berhasil diperbarui!';
-
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,8 +12,8 @@ if(isset($_POST['update'])){
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-   
-   <!-- font google --> 
+
+   <!-- font google -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       type="text/css" media="all"/>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC%3A400%2C700%7CLato%3A400%2C700%2C400italic%2C700italic&amp;ver=4.9.8"
@@ -58,14 +21,15 @@ if(isset($_POST['update'])){
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-   
+
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
+   <link rel="stylesheet" href="{{asset('css/admin_style.css')}}">
+
 
 </head>
 <body>
 
-<?php include '../components/admin_header.php' ?>
+@include ('components.admin_header')
 
 <!-- update partners section starts  -->
 
@@ -73,52 +37,31 @@ if(isset($_POST['update'])){
 
    <h1 class="heading">edit partner</h1>
 
-   <?php
-      $update_id = $_GET['update'];
-      $show_partners = $conn->prepare("SELECT * FROM `partners` WHERE id = ?");
-      $show_partners->execute([$update_id]);
-      if($show_partners->rowCount() > 0){
-         while($fetch_partners = $show_partners->fetch(PDO::FETCH_ASSOC)){  
-   ?>
-   <form action="" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="id" value="<?= $fetch_partners['id']; ?>">
+   <form action="/update_partner/{{$partner->id}}" method="POST" enctype="multipart/form-data">
+    @csrf
+      <input type="hidden" name="id" value="{{$partner->id}}">
       <span>edit nama</span>
-      <input type="text" required placeholder="enter partner name" name="name" maxlength="100" class="box" value="<?= $fetch_partners['name']; ?>">
+      <input type="text" required placeholder="enter partner name" name="name" maxlength="100" class="box" value="{{$partner->name}}">
       <span>edit email</span>
-      <input type="email" name="email" required placeholder="enter partner email" maxlength="100" class="box" value="<?= $fetch_partners['email']; ?>">
+      <input type="email" name="email" required placeholder="enter partner email" maxlength="100" class="box" value="{{$partner->email}}">
       <span>edit nomor telepon</span>
-      <input type="text" min="0" max="9999999999" required placeholder="enter partners number phone" name="number" class="box" onkeypress="if(this.value.length == 16) return false;" class="box" value="<?= $fetch_partners['number']; ?>">
+      <input type="text" min="0" max="9999999999" required placeholder="enter partners number phone" name="number" class="box" onkeypress="if(this.value.length == 18) return false;" class="box" value="{{$partner->number}}">
       <span>edit deskripsi</span>
-      <textarea required placeholder="enter partner description" name="keterangan" maxlength="1000" class="box"><?php echo $fetch_partners['keterangan'];?></textarea>
+      <textarea required placeholder="enter partner description" name="keterangan" maxlength="1000" class="box">{{$partner->keterangan}}</textarea>
       <span>edit alamat</span>
-      <textarea required placeholder="enter partner address" name="address" maxlength="1000" class="box"><?php echo $fetch_partners['address'];?></textarea>
+      <textarea required placeholder="enter partner address" name="address" maxlength="1000" class="box">{{$partner->address}}</textarea>
       <div class="flex-btn">
          <input type="submit" value="perbarui" class="btn" name="update">
-         <a href="partners.php" class="option-btn">kembali</a>
+         <a href="/partners" class="option-btn">kembali</a>
       </div>
    </form>
-   <?php
-         }
-      }else{
-         echo '<p class="empty">belum ada partner yang ditambahkan!</p>';
-      }
-   ?>
 
 </section>
 
 <!-- update product section ends -->
 
-
-
-
-
-
-
-
-
-
 <!-- custom js file link  -->
-<script src="../js/admin_script.js"></script>
+<script src="{{asset('js/admin_script.js')}}"></script>
 
 </body>
 </html>

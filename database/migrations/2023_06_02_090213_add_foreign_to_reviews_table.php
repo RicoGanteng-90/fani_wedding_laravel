@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->required()->after('id');
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->unsignedBigInteger('customer_id')->required()->after('id');
 
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            Schema::dropIfExists('orders');
+        Schema::table('reviews', function (Blueprint $table) {
+            //
         });
     }
 };

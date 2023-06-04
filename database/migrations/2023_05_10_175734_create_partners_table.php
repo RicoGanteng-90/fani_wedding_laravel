@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 50);
             $table->string('number');
             $table->string('keterangan');
-            $table->string('address', 50);
+            $table->string('address', 100);
             $table->timestamps();
         });
     }

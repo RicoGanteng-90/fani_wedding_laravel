@@ -64,7 +64,7 @@ section{
    width: 100%;
    font-size: 2rem;
    color:var(--white);
-   padding:1.2rem 3rem;
+   padding:1.2rem 2rem ;
    text-transform: capitalize;
    text-align: center;
 }
@@ -437,6 +437,7 @@ background-color: var(--red);
    line-height: 1.5;
    letter-spacing: .4px;
    text-align: justify;
+   word-break: break-word;
 }
 
 .show-products .box-container .box .flex{

@@ -13,12 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 100);
-            $table->string('password', 100);
-            $table->timestamps();
-        });
+        Schema::dropIfExists('admins');
     }
 
     /**

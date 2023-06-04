@@ -23,12 +23,12 @@
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="admin/css/admin_style.css">
+   <link rel="stylesheet" href="css/admin_style.css">
 
 </head>
 <body>
 
-{{ @include('components/admin_header') }}
+@include('components/admin_header')
 
 <!-- admin dashboard section starts  -->
 
@@ -40,122 +40,62 @@
 
    <div class="box">
 
-        {{ $select_products = $conn->prepare("SELECT * FROM `products`") }}
-        {{ $select_products->execute() }}
-        {{ $numbers_of_products = $select_products->rowCount() }}
-
-      <h3>{{ $numbers_of_products; }}</h3>
-      <a href="products.php" class="btn">lihat produk</a>
+      <h3>{{ $productcount }}</h3>
+      <a href="products" class="btn">Lihat produk</a>
    </div>
 
 
    <div class="box">
-      <h3>Grafik</h3>
-      <a href="grafik.php" class="btn">Layanan Produk</a>
+      <h3>{{ $orderscount }}</h3>
+      <a href="placed_orders" class="btn">Lihat Order</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $select_orders = $conn->prepare("SELECT * FROM `orders`");
-         $select_orders->execute();
-         $numbers_of_orders = $select_orders->rowCount();
-      ?>
-      <h3><?= $numbers_of_orders; ?></h3>
-      <a href="placed_orders.php" class="btn">Lihat Order</a>
+      <h3><span>Rp. </span><span>{{number_format($lunassum,2,',','.')}}</span></h3>
+      <a href="lunas" class="btn">Order Lunas</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $total_lunas = 0;
-         $select_lunas = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
-         $select_lunas->execute(['lunas']);
-         while($fetch_lunas = $select_lunas->fetch(PDO::FETCH_ASSOC)){
-            $total_lunas += $fetch_lunas['total_price'];
-         }
-      ?>
-      <h3><span>Rp. </span><?php echo " " . number_format ($total_lunas,0,',','.'); ?><span></span></h3>
-      <a href="lunas.php" class="btn">Order Lunas</a>
+      <h3><span>Rp. </span><span>{{number_format($notlunassum,2,',','.')}}</span></h3>
+      <a href="belum_lunas" class="btn">Order Belum Lunas</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $total_belum = 0;
-         $select_belum = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
-         $select_belum->execute(['Belum Lunas']);
-         while($fetch_belum = $select_belum->fetch(PDO::FETCH_ASSOC)){
-            $total_belum += $fetch_belum['total_price'];
-         }
-      ?>
-      <h3><span>Rp. </span><?php echo " " . number_format ($total_belum,0,',','.'); ?><span></span></h3>
-      <a href="belum_lunas.php" class="btn">Order Belum Lunas</a>
+      <h3>{{$customercount}}</h3>
+      <a href="customer_accounts" class="btn">data pengguna</a>
+   </div>
+
+   <div class="box">
+      <h3>{{$admincount}}</h3>
+
+      <a href="admin_accounts" class="btn">data admin</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $select_users = $conn->prepare("SELECT * FROM `users`");
-         $select_users->execute();
-         $numbers_of_users = $select_users->rowCount();
-      ?>
-      <h3><?= $numbers_of_users; ?></h3>
-      <a href="users_accounts.php" class="btn">data pengguna</a>
+      <h3>{{$employeecount}}</h3>
+      <a href="employees" class="btn">data karyawan</a>
    </div>
 
    <div class="box">
-      <?php
-         $select_admins = $conn->prepare("SELECT * FROM `admin`");
-         $select_admins->execute();
-         $numbers_of_admins = $select_admins->rowCount();
-      ?>
-      <h3><?= $numbers_of_admins; ?></h3>
-
-      <a href="admin_accounts.php" class="btn">data admin</a>
+      <h3>{{$partnercount}}</h3>
+      <a href="partners" class="btn">data partner</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $select_employees = $conn->prepare("SELECT * FROM `employees`");
-         $select_employees->execute();
-         $numbers_of_employees = $select_employees->rowCount();
-      ?>
-      <h3><?= $numbers_of_employees; ?></h3>
-      <a href="employees.php" class="btn">data karyawan</a>
-   </div>
-
-   <div class="box">
-      <?php
-         $select_partners = $conn->prepare("SELECT * FROM `partners`");
-         $select_partners->execute();
-         $numbers_of_partners = $select_partners->rowCount();
-      ?>
-      <h3><?= $numbers_of_partners; ?></h3>
-      <a href="partners.php" class="btn">data partner</a>
+      <h3>{{$messagecount}}</h3>
+      <a href="messages" class="btn">lihat pesan</a>
    </div>
 
 
    <div class="box">
-      <?php
-         $select_messages = $conn->prepare("SELECT * FROM `messages`");
-         $select_messages->execute();
-         $numbers_of_messages = $select_messages->rowCount();
-      ?>
-      <h3><?= $numbers_of_messages; ?></h3>
-      <a href="messages.php" class="btn">lihat pesan</a>
-   </div>
 
-
-   <div class="box">
-      <?php
-         $select_review = $conn->prepare("SELECT * FROM `review`");
-         $select_review->execute();
-         $numbers_of_review = $select_review->rowCount();
-      ?>
-      <h3><?= $numbers_of_review; ?></h3>
-      <a href="review.php" class="btn">Testimoni</a>
+      <h3>{{$reviewcount}}</h3>
+      <a href="review" class="btn">Testimoni</a>
    </div>
 
    </div>

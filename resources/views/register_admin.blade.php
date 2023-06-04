@@ -1,43 +1,3 @@
-<?php
-
-include '../components/connect.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
-};
-
-if(isset($_POST['submit'])){
-
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-   $cpass = sha1($_POST['cpass']);
-   $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
-
-   $select_admin = $conn->prepare("SELECT * FROM `admin` WHERE name = ?");
-   $select_admin->execute([$name]);
-   
-   if($select_admin->rowCount() > 0){
-      $message[] = 'email sudah ada!';
-   }else{
-      if($pass != $cpass){
-         $message[] = 'konfirmasi kata sandi tidak cocok!';
-      }else{
-         $insert_admin = $conn->prepare("INSERT INTO `admin`(name, password) VALUES(?,?)");
-         $insert_admin->execute([$name, $cpass]);
-         $message[] = 'admin baru ditambahkan';
-      }
-   }
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +13,7 @@ if(isset($_POST['submit'])){
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
-   <!-- font google --> 
+   <!-- font google -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       type="text/css" media="all"/>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC%3A400%2C700%7CLato%3A400%2C700%2C400italic%2C700italic&amp;ver=4.9.8"
@@ -63,22 +23,22 @@ if(isset($_POST['submit'])){
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
+   <link rel="stylesheet" href="{{('css/admin_style.css')}}">
 
 </head>
 <body>
-
-<?php include '../components/admin_header.php' ?>
-
 <!-- register admin section starts  -->
 
 <section class="form-container">
 
-   <form action="" method="POST">
+    <form action="{{ route('admin.register') }}" method="POST" enctype="multipart/form-data">
+    @csrf
       <h3>register</h3>
-      <input type="text" name="name" maxlength="50" required placeholder="masukan email anda" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
-      <input type="password" name="pass" maxlength="20" required placeholder="masukan kata sandi anda" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
-      <input type="password" name="cpass" maxlength="20" required placeholder="konfirmasi kata sandi" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
+      <input type="text" name="name" required placeholder="masukan nama anda" class="box">
+      <input type="email" name="email" required placeholder="Masukkan email anda" class="box">
+      <input type="tel" name="number" min="0" max="9999999999" placeholder="Masukkan nomor anda" class="box">
+      <input type="text" name="address" placeholder="Masukkan alamat anda" class="box">
+      <input type="password" name="password" maxlength="20" placeholder="masukan kata sandi" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="submit" value="register" name="submit" class="btn">
    </form>
 
@@ -86,23 +46,8 @@ if(isset($_POST['submit'])){
 
 <!-- register admin section ends -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- custom js file link  -->
-<script src="../js/admin_script.js"></script>
+<script src="{{('js/admin_script.js')}}"></script>
 
 </body>
 </html>

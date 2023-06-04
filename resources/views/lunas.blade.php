@@ -1,37 +1,3 @@
-<?php
-
-include '../components/connect.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
-};
-
-if(isset($_POST['update_payment'])){
-
-   $order_id = $_POST['order_id'];
-   $order_id = filter_var($order_id, FILTER_SANITIZE_STRING);
-   $payment_status = $_POST['payment_status'];
-   $payment_status = filter_var($payment_status, FILTER_SANITIZE_STRING);
-
-   $update_status = $conn->prepare("UPDATE `orders` SET  payment_status = ? WHERE id = ?");
-   $update_status->execute([$payment_status, $order_id]);
-
-   $message[] = 'status diperbarui';
-}
-
-if(isset($_GET['delete'])){
-   $delete_id = $_GET['delete'];
-   $delete_order = $conn->prepare("DELETE FROM `orders` WHERE id = ?");
-   $delete_order->execute([$delete_id]);
-   header('location:lunas.php');
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +12,8 @@ if(isset($_GET['delete'])){
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-   
-   <!-- font google --> 
+
+   <!-- font google -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       type="text/css" media="all"/>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC%3A400%2C700%7CLato%3A400%2C700%2C400italic%2C700italic&amp;ver=4.9.8"
@@ -55,39 +21,105 @@ if(isset($_GET['delete'])){
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-   
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
 
-   <style>      
-      .zoom {      
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{{asset('css/admin_style.css')}}">
+
+   <style>
+      .zoom {
       background-color: transparent;
       transition: transform .1s;
       width: 0px auto;
-      height: 0% auto;      
+      height: 0% auto;
       }
 
       .zoom:hover {
       -ms-transform: scale(1.5); /* IE 9 */
       -webkit-transform: scale(1.5); /* Safari 3-8 */
-      transform: scale(6.5); 
+      transform: scale(6.5);
       }
+
+      .lun{
+        display: table; /* keep the background color wrapped tight */
+        border-radius: 15px;
+        margin: 0px auto 0px auto; /* keep the table centered */
+        padding:5px;font-size:20px;background-color:rgba(228, 0, 0, 0.664);color:#000000;
+    }
+
+    .not{
+        display: table; /* keep the background color wrapped tight */
+        border-radius: 15px;
+        margin: 0px auto 0px auto; /* keep the table centered */
+        padding:5px;font-size:20px;background-color:rgba(84, 206, 73, 0.63);color:#3b3939;
+    }
+
+    .button-54 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #4e4e4e;
+    cursor: pointer;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition-duration: 0.2s;
+    }
+
+    .button-54:hover {
+    background-color: #9e9e9e;
+    color: rgb(0, 0, 0);
+    }
+
+    .button-54:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+    }
+
+    @media (min-width: 768px) {
+    .button-54 {
+        padding: 0.25em 0.75em;
+    }
+}
       </style>
 
 </head>
 <body>
 
-<?php include '../components/admin_header.php' ?>
+@include('components.admin_header')
 
 <!-- placed orders section starts  -->
 
 <section class="placed-orders">
 
-   <h1 class="heading">Order Lunas</h1>
+    <br>
+    <a href="dashboard" class="button-54" role="button"><b><- Back</b></a>
+    <br><br>
 
+   <h1 class="heading">Order Lunas</h1>
+<b>
+   @if ($message = Session::get('lunasdel'))
+            <div class="lun">{{ $message }}</div>
+            @endif
+
+            @if ($message = Session::get('lun1'))
+            <div class="lun">{{ $message }}</div>
+            @endif
+
+            @if ($message = Session::get('lun2'))
+            <div class="not">{{ $message }}</div>
+            @endif
+</b>
+            <br><br>
    <div class="box-container">
 
-   
+
    <div class="box">
    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <thead>
@@ -98,39 +130,63 @@ if(isset($_GET['delete'])){
             <td>Nomor Telepon</td>
             <td>Alamat</td>
             <td>Waktu Acara</td>
-            <td>Total Pembayaran</td>  
+            <td>Total Pembayaran</td>
             <td>Bukti Pembayaran</td>
-            <td>Status Pembayaran</td>                     
+            <td>Status Pembayaran</td>
+            <td>Action</td>
          </tr>
       </thead>
-      
-      <?php      
-      $select_orders = $conn->prepare("SELECT orders.id, orders.user_id, orders.name, orders.email, orders.number, orders.address, orders.event_time, orders.total_price, orders.proof_payment, orders.payment_status
-      FROM orders
-      WHERE payment_status = 'Lunas';");
-      $select_orders->execute();
-      if($select_orders->rowCount() > 0){
-         while($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)){
-   ?>
-         <tr>
-            <td><span><?= $fetch_orders['id']; ?></td>
-            <td><span><?= $fetch_orders['name']; ?></span></td>
-            <td><span><?= $fetch_orders['email']; ?></span></td>
-            <td><span><?= $fetch_orders['number']; ?></span></td>
-            <td><span><?= $fetch_orders['address']; ?></span></td>
-            <td><span><?= $fetch_orders['event_time']; ?></span></td>
-            <td><span><?php echo " " . number_format($fetch_orders['total_price'],0,',','.'); ?></span></td>                        
-            <td><div class="zoom"><img src="../admin_img/<?= $fetch_orders['proof_payment']; ?>" width="80px" alt=""></div></td>            
-            <td><span><?= $fetch_orders['payment_status']; ?></span></td>            
-            </form>
-         </tr>
 
-   <?php
-      }
-   }else{
-      echo '';
-   }
-   ?>
+      @foreach($lunas as $dah)
+
+
+
+         <tr>
+            <td><span>{{$dah->id}}</td>
+            <td><span>{{$dah->name}}</span></td>
+            <td><span>{{$dah->email}}</span></td>
+            <td><span>{{$dah->number}}</span></td>
+            <td><span>{{$dah->address}}</span></td>
+            <td><span>{{$dah->event_time}}</span></td>
+            <td><span>Rp. </span>{{number_format($dah->total_price,2,',','.')}}</span></td>
+            <td><div class="zoom"><img src="{{asset('bukti/'.$dah->proof_payment)}}" width="80px" alt=""></div></td>
+
+                <form action="/kelunasan2/{{$dah->id}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                <td>
+                   <input type="hidden" name="order_id" value="{{$dah->id}}">
+                   <select name="payment_status" class="drop-down-bayar">
+                      <option hidden value="{{$dah->payment_status}}" selected>{{$dah->payment_status}}</option>
+                      <option value=""></option>
+                      <option value="Belum lunas">Belum lunas</option>
+                      <option value="Lunas">Lunas</option>
+                   </select>
+                </td>
+
+                <td>
+                   <div class="flex-btn">
+                   <input type="submit" value="update" class="btn-order" name="update_payment">
+                </form>
+
+                <span><form id="delete-form-{{$dah->id}}" action="/lunas2-delete/{{$dah->id}}" method="POST" style="display: none;">
+                @csrf
+                @method('DELETE')
+            </form>
+            <a href="#" class="delete-btn" onclick="event.preventDefault(); confirmDelete({{$dah->id}});">
+                Hapus
+            </a>
+
+            <script>
+            function confirmDelete(id) {
+                if (confirm('Delete this order?')) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            }
+            </script></span></td>
+            </form>
+         </td>
+         </tr>
+         @endforeach
    </table>
    </div>
    </div>

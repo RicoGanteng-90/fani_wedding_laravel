@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->string('password');
             $table->string('email', 100);
-            $table->string('number', 20);
-            $table->string('password', 50);
+            $table->integer('number');
+            $table->enum('role', ['admin', 'user'])->nullable();
             $table->string('address', 100);
             $table->timestamps();
         });

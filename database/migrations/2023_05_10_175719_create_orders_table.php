@@ -24,9 +24,9 @@ return new class extends Migration
             $table->integer('total_price');
             $table->dateTime('order_time');
             $table->dateTime('event_time');
-            $table->string('order_status');
+            $table->string('order_status')->nullable();
             $table->string('proof_payment');
-            $table->string('payment_status');
+            $table->string('payment_status')->nullable();
             $table->timestamps();
 
 

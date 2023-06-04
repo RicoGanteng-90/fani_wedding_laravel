@@ -1,31 +1,3 @@
-<?php
-
-include '../components/connect.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
-}
-
-if (isset($_POST['update'])) {
-
-    $order_id = $_POST['order_id'];
-    $order_id = filter_var($order_id, FILTER_SANITIZE_STRING);
-    
-    $event_time = $_POST['event_time'];
-    $event_time = filter_var($event_time, FILTER_SANITIZE_STRING);
-
-    $update_date = $conn->prepare("UPDATE `orders` SET event_time = ? WHERE id = ?");
-    $update_date->execute([$event_time, $order_id]);
-
-    header('Location: placed_orders.php');
-} 
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,8 +12,8 @@ if (isset($_POST['update'])) {
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-   
-   <!-- font google --> 
+
+   <!-- font google -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       type="text/css" media="all"/>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC%3A400%2C700%7CLato%3A400%2C700%2C400italic%2C700italic&amp;ver=4.9.8"
@@ -51,7 +23,7 @@ if (isset($_POST['update'])) {
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
+   <link rel="stylesheet" href="{{asset('css/admin_style.css')}}">
  <style>
     .accounts .box-container .box{
         width: 100%;
@@ -76,12 +48,12 @@ if (isset($_POST['update'])) {
         }
 
         .button1 {width: 100%;}
- </style>   
+ </style>
 
 </head>
 <body>
 
-<?php include '../components/admin_header.php' ?>
+@include('components.admin_header')
 
 <!-- admins accounts section starts  -->
 
@@ -93,29 +65,17 @@ if (isset($_POST['update'])) {
 
    <div class="box">
 
-   <?php
-      $update_id = $_GET['update'];
-      $show_products = $conn->prepare("SELECT * FROM `orders` WHERE id = ?");
-      $show_products->execute([$update_id]);
-      if($show_products->rowCount() > 0){
-         while($fetch_products = $show_products->fetch(PDO::FETCH_ASSOC)){
-   ?>
-
-   <form action="" method="POST" enctype="multipart/form-data">
-   <input type="hidden" name="order_id" value="<?= $fetch_products['id']; ?>">
+   <form action="/update_date/{{$time->id}}" method="POST" enctype="multipart/form-data">
+    @csrf
+   <input type="hidden" name="order_id" value="id">
    <h3>Waktu pengunduran acara</h3>
-        <input type="datetime-local" class="box" name="event_time" value="<?= $fetch_products['event_time']; ?>">
+        <input type="datetime-local" class="box" name="event_time" value="{{$time->event_time}}">
         <div class="up">
-        <input type="submit" value="update" class="btn" name="update" onclick="halo()">
+        <input type="submit" value="update" class="btn" name="update">
         </div>
-   </form>   
+   </form>
 
-   <?php
-         }
-      }else{
-         echo '<p class="empty">no products added yet!</p>';
-      }
-   ?>
+
 
    </div>
 
@@ -126,7 +86,7 @@ if (isset($_POST['update'])) {
 <!-- admins accounts section ends -->
 
 <!-- custom js file link  -->
-<script src="../js/admin_script.js"></script>
+<script src="{{('js/admin_script.js')}}"></script>
 
 <script>
       function halo() {
