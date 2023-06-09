@@ -35,12 +35,12 @@
 
 <section class="form-container">
 
-   <form action="/update_profile/{{$edit->id}}" method="POST">
+   <form action="/update_profile/{{$edit->id}}" method="POST" enctype="multipart/form-data">
     @csrf
       <h3>Edit Profil</h3>
-      <input type="text" name="name" placeholder="masukkan nama" class="box">
-      <input type="number" name="number" placeholder="masukkan nomor" class="box">
-      <input type="text" name="address" placeholder="masukkan alamat" class="box">
+      <input type="text" name="name" placeholder="masukkan nama" class="box" value="{{$edit->name}}">
+      <input type="number" name="number" placeholder="masukkan nomor" class="box" value="{{$edit->number}}">
+      <input type="text" name="address" placeholder="masukkan alamat" class="box" value="{{$edit->address}}">
       <input type="password" name="password" maxlength="20" placeholder="masukkan kata sandi baru" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="submit" value="Perbarui" name="submit" class="btn">
    </form>

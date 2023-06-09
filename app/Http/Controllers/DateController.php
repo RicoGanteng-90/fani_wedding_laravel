@@ -50,7 +50,8 @@ class DateController extends Controller
     {
         $time = order::findOrFail($id);
 
-        return view('date_update', compact('time'));
+        //return view('date_update', compact('time'));
+        return response()->json(['data'=>$time]);
         }
 
 
@@ -62,13 +63,7 @@ class DateController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $date = order::findOrFail($id);
-
-        $date->event_time=$request->input('event_time');
-
-        $date->save();
-
-        return redirect()->route('orders.index')->with('date', 'Tanggal diundur!');
+        //
     }
 
     /**
@@ -80,7 +75,14 @@ class DateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $date = order::findOrFail($id);
+
+        $date->event_time=$request->input('event_time');
+
+        $date->save();
+
+        //return redirect()->route('orders.index')->with('date', 'Tanggal diundur!');
+        return response()->json(['data'=>$date]);
     }
 
     /**

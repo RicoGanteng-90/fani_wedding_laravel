@@ -96,7 +96,7 @@
             @endif
             <br><br>
 
-   <form action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
+   <form action="{{ route('employee.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
       <h3>tambahkan karyawan</h3>
       <input type="text" required placeholder="masukan nama karyawan" name="name" maxlength="100" class="box">

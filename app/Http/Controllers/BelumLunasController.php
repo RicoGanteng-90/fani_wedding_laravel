@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\order;
 use Illuminate\Http\Request;
-use App\Models\customer;
 
-class UsersController extends Controller
+class BelumLunasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $customer = Customer::all();
+        $notlunas = Order::where('payment_status', 'Belum lunas')->get();
 
-        return view ('customer_accounts', compact('customer'));
-        //return response()->json(['data'=>$customer]);
+        //return view('belum_lunas', compact('notlunas'));
+        return response()->json(['data'=>$notlunas]);
     }
 
     /**
@@ -47,7 +47,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }
@@ -72,7 +72,20 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::findOrFail($id);
+
+        $order->payment_status=$request->input('payment_status');
+
+        $order->save();
+
+        /*
+        if ($order->payment_status=='Belum lunas') {
+            return redirect()->route('belumlunas.index')->with('lunasup2', 'Order belum lunas!');
+        }elseif($order->payment_status=='Lunas'){
+            return redirect()->route('belumlunas.index')->with('lunasup', 'Order lunas!');
+        }
+        */
+        return response()->json(['data'=>$order]);
     }
 
     /**
@@ -83,11 +96,17 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $customer = customer::findOrFail($id);
+        $lunas = Order::findOrFail($id);
 
-        $customer->delete();
+    if ($lunas->proof_payment) {
+        $oldFilePath = public_path('bukti/'.$lunas->proof_payment);
+        if (file_exists($oldFilePath)) {
+            unlink($oldFilePath);
+        }
+    }
+    $lunas->delete();
 
-        return redirect()->route('user.index')->with('delcus', 'Akun dihapus!');
-        //return response()->json(['data'=>$customer]);
+    //return redirect()->route('belumlunas.index')->with('notlunasdel', 'Terhapus!');
+    return response()->json(['data'=>$lunas]);
     }
 }

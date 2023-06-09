@@ -16,7 +16,9 @@ class MessageController extends Controller
     public function index()
     {
         $message = message::all();
-        return view('messages', compact('message'));
+
+        //return view('messages', compact('message'));
+        return response()->json(['data'=>$message]);
     }
 
     /**
@@ -86,6 +88,7 @@ class MessageController extends Controller
 
         $mess->delete();
 
-        return redirect()->route('message.index')->with('mess', 'Terhapus!');
+        //return redirect()->route('message.index')->with('mess', 'Terhapus!');
+        return response()->json(['data'=>$mess]);
     }
 }

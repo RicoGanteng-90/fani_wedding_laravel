@@ -16,7 +16,9 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = Employee::all();
-        return view('employees', compact('employee'));
+
+        //return view('employees', compact('employee'));
+        return response()->json(['data'=>$employee]);
     }
 
     /**
@@ -26,11 +28,7 @@ class EmployeeController extends Controller
      */
     public function create(Request $request)
     {
-        $emp=employee::create($request->all());
 
-        $emp->save();
-
-        return redirect()->route('employee.index')->with('reg-emp', 'Akun ditambahkan!');
     }
 
     /**
@@ -41,7 +39,12 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $emp=employee::create($request->all());
+
+        $emp->save();
+
+        //return redirect()->route('employee.index')->with('reg-emp', 'Akun ditambahkan!');
+        return response()->json(['data'=>$emp]);
     }
 
     /**
@@ -53,7 +56,9 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::findOrFail($id);
-        return view('update_employees', compact('employee'));
+
+        //return view('update_employees', compact('employee'));
+        return response()->json(['data'=>$employee]);
     }
 
     /**
@@ -64,17 +69,7 @@ class EmployeeController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $emp = employee::findOrFail($id);
-
-        $emp->name=$request->input('name');
-        $emp->email=$request->input('email');
-        $emp->number=$request->input('number');
-        $emp->position=$request->input('position');
-        $emp->address=$request->input('address');
-
-        $emp->save();
-
-        return redirect()->route('employee.index')->with('up-emp', 'Update berhasil!');
+        //
     }
 
     /**
@@ -86,7 +81,18 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $emp = employee::findOrFail($id);
+
+        $emp->name=$request->input('name');
+        $emp->email=$request->input('email');
+        $emp->number=$request->input('number');
+        $emp->position=$request->input('position');
+        $emp->address=$request->input('address');
+
+        $emp->save();
+
+        //return redirect()->route('employee.index')->with('up-emp', 'Update berhasil!');
+        return response()->json(['data'=>$emp]);
     }
 
     /**
@@ -101,7 +107,8 @@ class EmployeeController extends Controller
 
         $emp -> delete();
 
-        return redirect()->route('employee.index')->with('del-emp', 'Dihapus!');
+        //return redirect()->route('employee.index')->with('del-emp', 'Dihapus!');
+        return response()->json(['data'=>$emp]);
     }
 
 }

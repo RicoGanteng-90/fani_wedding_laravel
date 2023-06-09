@@ -10,6 +10,8 @@ class AdminHeaderController extends Controller
     public function index()
     {
         $header = user::all();
-        return view('components.admin_header', ['header' => $header]);
+
+        //return view('components.admin_header', ['header' => $header]);
+        return response()->json(['data'=>$header]);
     }
 }

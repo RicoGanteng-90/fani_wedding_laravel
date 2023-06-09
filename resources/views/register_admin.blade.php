@@ -31,7 +31,7 @@
 
 <section class="form-container">
 
-    <form action="{{ route('admin.register') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
       <h3>register</h3>
       <input type="text" name="name" required placeholder="masukan nama anda" class="box">

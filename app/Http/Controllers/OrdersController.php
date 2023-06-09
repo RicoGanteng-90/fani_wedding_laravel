@@ -16,7 +16,9 @@ class OrdersController extends Controller
     public function index()
     {
         $order = order::where('payment_status', null)->get();
+
         return view('placed_orders',compact('order'));
+        //return response()->json(['data'=>$order]);
     }
 
     /**
@@ -78,6 +80,7 @@ class OrdersController extends Controller
 
         $order->save();
 
+
         if (($order->order_status=='Ditolak')&&($order->payment_status=='Belum lunas')) {
             return redirect()->route('orders.index')->with('succ1', 'Order ditolak!')->with('succ11', 'Order belum lunas!');
         }elseif(($order->order_status=='Ditolak')&&($order->payment_status=='Lunas')){
@@ -98,6 +101,8 @@ class OrdersController extends Controller
         else{
             return redirect()->route('orders.index')->with('lun', 'Terjadi Error!');
         }
+
+        //return response()->json(['data'=>$order]);
     }
 
     /**
@@ -120,6 +125,7 @@ class OrdersController extends Controller
     $order->delete();
 
     return redirect()->route('orders.index')->with('del', 'Data berhasil dihapus');
+    //return response()->json(['data'=>$order]);
 }
 
 }

@@ -16,28 +16,9 @@ class AdminController extends Controller
     public function index()
     {
         $admin = user::all();
+
         return view ('admin_accounts', compact('admin'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        //return response()->json(['data' => $admin]);
     }
 
     /**
@@ -46,11 +27,12 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function add()
     {
         $admin=user::all();
 
         return view('register_admin', compact('admin'));
+       //return response()->json(['data'=>$admin]);
     }
 
     /**
@@ -59,13 +41,15 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show($id)
     {
-        $edit = user::findOrFail($id);
+        $edit = User::findOrFail($id);
+
         return view('update_profile', compact('edit'));
+        //return response()->json(['data'=>$edit]);
     }
 
-    public function register(Request $request)
+    public function store(Request $request)
     {
 
         $admin=User::create($request->all());
@@ -75,6 +59,7 @@ class AdminController extends Controller
         $admin->save();
 
         return redirect()->route('admin.index')->with('reg-admin', 'Akun ditambahkan!');
+        //return response()->json(['data'=>$admin]);
     }
 
     /**
@@ -89,21 +74,14 @@ class AdminController extends Controller
 
         $user = user::findOrFail($id);
 
-        if ($request->filled('name')) {
             $user->name = $request->input('name');
-        }
-
-        if ($request->filled('number')) {
             $user->number = $request->input('number');
-        }
-
-        if ($request->filled('address')) {
             $user->address = $request->input('address');
-        }
-        $user->password = hash::make($request->input('password'));
-        $user->save();
+            $user->password = hash::make($request->input('password'));
+            $user->save();
 
         return redirect()->route('admin.index')->with('same', 'Data diupdate');
+        //return response()->json(['data'=>$user]);
     }
 
     /**
@@ -119,5 +97,6 @@ class AdminController extends Controller
         $admin->delete();
 
         return redirect()->route('admin.index')->with('hapusadm', 'Dihapus!');
+        //return response()->json(['data'=>$admin]);
     }
 }

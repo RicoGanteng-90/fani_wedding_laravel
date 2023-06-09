@@ -15,7 +15,9 @@ class ReviewController extends Controller
     public function index()
     {
         $review = review::all();
-        return view ('review', compact('review'));
+
+        //return view ('review', compact('review'));
+        return response()->json(['data'=>$review]);
     }
 
     /**
@@ -85,6 +87,7 @@ class ReviewController extends Controller
 
         $rev->delete();
 
-        return redirect()->route('review.index')->with('rev', 'Dihapus!');
+        //return redirect()->route('review.index')->with('rev', 'Dihapus!');
+        return response()->json(['data'=>$rev]);
     }
 }

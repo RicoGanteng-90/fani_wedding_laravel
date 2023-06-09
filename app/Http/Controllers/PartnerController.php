@@ -16,7 +16,9 @@ class PartnerController extends Controller
     public function index()
     {
         $partner = partner::all();
-        return view('partners', compact('partner'));
+
+        //return view('partners', compact('partner'));
+        return response()->json(['data'=>$partner]);
     }
 
     /**
@@ -26,11 +28,7 @@ class PartnerController extends Controller
      */
     public function create(Request $request)
     {
-        $part=partner::create($request->all());
-
-        $part->save();
-
-        return redirect()->route('partner.index')->with('part1', 'Partner ditambahkan!');
+        //
     }
 
     /**
@@ -41,7 +39,12 @@ class PartnerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $part=partner::create($request->all());
+
+        $part->save();
+
+        //return redirect()->route('partner.index')->with('part1', 'Partner ditambahkan!');
+        return response()->json(['data'=>$part]);
     }
 
     /**
@@ -53,7 +56,9 @@ class PartnerController extends Controller
     public function show($id)
     {
         $partner = partner::findOrFail($id);
-        return view('update_partners', compact('partner'));
+
+        //return view('update_partners', compact('partner'));
+        return response()->json(['data'=>$partner]);
     }
 
     /**
@@ -64,17 +69,7 @@ class PartnerController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $part = partner::findOrFail($id);
-
-        $part->name=$request->input('name');
-        $part->email=$request->input('email');
-        $part->number=$request->input('number');
-        $part->keterangan=$request->input('keterangan');
-        $part->address=$request->input('address');
-
-        $part->save();
-
-        return redirect()->route('partner.index')->with('up-part', 'Update berhasil!');
+        //
     }
 
     /**
@@ -86,7 +81,18 @@ class PartnerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $part = partner::findOrFail($id);
+
+        $part->name=$request->input('name');
+        $part->email=$request->input('email');
+        $part->number=$request->input('number');
+        $part->keterangan=$request->input('keterangan');
+        $part->address=$request->input('address');
+
+        $part->save();
+
+        //return redirect()->route('partner.index')->with('up-part', 'Update berhasil!');
+        return response()->json(['data'=>$part]);
     }
 
     /**
@@ -101,6 +107,7 @@ class PartnerController extends Controller
 
         $part->delete();
 
-        return redirect()->route('partner.index')->with('part-del', 'Terhapus!');
+        //return redirect()->route('partner.index')->with('part-del', 'Terhapus!');
+        return response()->json(['data'=>$part]);
     }
 }

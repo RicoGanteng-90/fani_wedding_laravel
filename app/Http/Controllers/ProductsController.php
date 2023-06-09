@@ -16,7 +16,9 @@ class ProductsController extends Controller
     public function index()
     {
         $product = product::all();
+
         return view('products',compact('product'));
+        //return response()->json(['data' => $product]);
     }
 
     /**
@@ -45,7 +47,8 @@ class ProductsController extends Controller
             $product->save();
         }
 
-        return redirect()->route('products.index')->with('prodsucc', 'Produk berhasil ditambahkan!');
+        //return redirect()->route('products.index')->with('prodsucc', 'Produk berhasil ditambahkan!');
+        return response()->json(['data' => $product]);
     }
 
     /**
@@ -59,6 +62,7 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
 
         return view('update_product', compact('product'));
+        //return response()->json(['data' => $product]);
         }
 
 
@@ -103,7 +107,8 @@ class ProductsController extends Controller
 
         $product->save();
 
-    return redirect()->route('products.index')->with('success', 'Berhasil update data');
+    //return redirect()->route('products.index')->with('success', 'Berhasil update data');
+    return response()->json(['data' => $product]);
 }
     /**
      * Remove the specified resource from storage.
@@ -123,7 +128,8 @@ class ProductsController extends Controller
 
         $product -> delete();
 
-        return redirect()->route('products.index')->with('success', 'Berhasil hapus data');
+        //return redirect()->route('products.index')->with('success', 'Berhasil hapus data');
+        return response()->json(['data' => $product]);
     }
 
 }
