@@ -91,13 +91,6 @@
       <a href="messages" class="btn">lihat pesan</a>
    </div>
 
-
-   <div class="box">
-
-      <h3>{{$reviewcount}}</h3>
-      <a href="review" class="btn">Testimoni</a>
-   </div>
-
    </div>
 
 </section>
@@ -105,7 +98,7 @@
 <!-- admin dashboard section ends -->
 
 <!-- custom js file link  -->
-<script src="../js/admin_script.js"></script>
+<script src="{{asset('js/admin_script.js')}}"></script>
 
 </body>
 </html>
