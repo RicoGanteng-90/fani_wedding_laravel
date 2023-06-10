@@ -88,7 +88,7 @@ class MessageController extends Controller
 
         $mess->delete();
 
-        //return redirect()->route('message.index')->with('mess', 'Terhapus!');
-        return response()->json(['data'=>$mess]);
+        return redirect()->route('message.index')->with('mess', 'Terhapus!');
+        //return response()->json(['data'=>$mess]);
     }
 }

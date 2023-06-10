@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\employee;
 use Illuminate\Http\Request;
-use App\Models\customer;
 
-class UsersController extends Controller
+class EmployeeAPIController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $customer = Customer::all();
+        $employee = employee::all();
 
-        //return view ('customer_accounts', compact('customer'));
-        return response()->json(['data'=>$customer]);
+        return response()->json(['data'=>$employee]);
     }
 
     /**
@@ -47,7 +46,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }
@@ -83,10 +82,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $customer = customer::findOrFail($id);
-
-        $customer->delete();
-
-        return redirect()->route('user.index')->with('delcus', 'Akun dihapus!');
+        //
     }
 }

@@ -1,22 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AdminHeaderController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\DateController;
-use App\Http\Controllers\LunasController;
-use App\Http\Controllers\BelumLunasController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProductAPIController;
+use App\Http\Controllers\OrderAPIController;
+use App\Http\Controllers\CustomerAPIController;
+use App\Http\Controllers\AdminAPIController;
+use App\Http\Controllers\EmployeeAPIController;
+use App\Http\Controllers\PartnerAPIController;
+use App\Http\Controllers\MessageAPIController;
+use App\Http\Controllers\ReviewAPIController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,28 +23,18 @@ use App\Http\Controllers\MessageController;
 |
 */
 
-Route::apiResource('admin_header', AdminHeaderController::class);
+Route::apiResource('products', ProductAPIController::class);
 
-Route::apiResource('products', ProductsController::class);
+Route::apiResource('customer_accounts', CustomerAPIController::class);
 
-Route::apiResource('dashboard', DashboardController::class);
+Route::apiResource('admin_accounts', AdminAPIController::class);
 
-Route::apiResource('customer_accounts', UsersController::class);
+Route::apiResource('orders', OrderAPIController::class);
 
-Route::apiResource('admin_accounts', AdminController::class);
+Route::apiResource('employee', EmployeeAPIController::class);
 
-Route::apiResource('orders', OrdersController::class);
+Route::apiResource('partner', PartnerAPIController::class);
 
-Route::apiResource('lunas', LunasController::class);
+Route::apiResource('message', MessageAPIController::class);
 
-Route::apiResource('belum_lunas', BelumLunasController::class);
-
-Route::apiResource('dates', DateController::class);
-
-Route::apiResource('employee', EmployeeController::class);
-
-Route::apiResource('partner', PartnerController::class);
-
-Route::apiResource('message', MessageController::class);
-
-Route::apiResource('review', ReviewController::class);
+Route::apiResource('review', ReviewAPIController::class);
