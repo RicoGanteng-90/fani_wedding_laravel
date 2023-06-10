@@ -125,7 +125,6 @@ class OrdersController extends Controller
     $order->delete();
 
     return redirect()->route('orders.index')->with('del', 'Data berhasil dihapus');
-    //return response()->json(['data'=>$order]);
 }
 
 }

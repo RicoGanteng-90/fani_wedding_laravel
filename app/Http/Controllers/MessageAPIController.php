@@ -16,7 +16,7 @@ class MessageAPIController extends Controller
     {
         $message=message::all();
 
-        return response()->json(['data'=>$message]);
+        return response()->json($message);
     }
 
     /**
@@ -37,7 +37,10 @@ class MessageAPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message=message::create($request->all());
+
+        $message->save();
+        return response()->json($message);
     }
 
     /**
@@ -59,7 +62,10 @@ class MessageAPIController extends Controller
      */
     public function edit($id)
     {
-        //
+        $message = message::all();
+
+        //return view('messages', compact('message'));
+        return response()->json($message);
     }
 
     /**

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\review;
+use App\Models\employee;
+use App\Models\message;
 use Illuminate\Http\Request;
 
-class ReviewAPIController extends Controller
+class EmployeeAPIController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,9 @@ class ReviewAPIController extends Controller
      */
     public function index()
     {
-        $review=review::all();
+        $employee = employee::all();
 
-        return response()->json(['data'=>$review]);
+        return response()->json($employee);
     }
 
     /**
@@ -48,7 +49,10 @@ class ReviewAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = employee::all();
+
+        //return view('messages', compact('message'));
+        return response()->json($employee);
     }
 
     /**

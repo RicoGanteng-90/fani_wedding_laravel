@@ -16,7 +16,7 @@ class PartnerAPIController extends Controller
     {
         $partner = partner::all();
 
-        return response()->json(['data'=>$partner]);
+        return response()->json($partner);
     }
 
     /**
@@ -48,7 +48,9 @@ class PartnerAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $partner = partner::findOrFail($id);
+
+        return response()->json($partner);
     }
 
     /**

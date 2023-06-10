@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('email', 100);
             $table->string('number', 20);
-            $table->string('address', 100);
+            $table->string('address', 100)->nullable();
             $table->timestamps();
         });
     }

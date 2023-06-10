@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\employee;
+use App\Models\user;
 use Illuminate\Http\Request;
 
-class EmployeeAPIController extends Controller
+class AdminAPIController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class EmployeeAPIController extends Controller
      */
     public function index()
     {
-        $employee = employee::all();
+        $admin = user::all();
 
-        return response()->json(['data'=>$employee]);
+        return response()->json($admin);
     }
 
     /**
@@ -48,7 +48,9 @@ class EmployeeAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $admin=user::findOrFail($id);
+
+        return response()->json($admin);
     }
 
     /**

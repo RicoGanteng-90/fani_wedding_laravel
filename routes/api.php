@@ -2,14 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ProductAPIController;
+use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderAPIController;
-use App\Http\Controllers\CustomerAPIController;
-use App\Http\Controllers\AdminAPIController;
-use App\Http\Controllers\EmployeeAPIController;
-use App\Http\Controllers\PartnerAPIController;
 use App\Http\Controllers\MessageAPIController;
-use App\Http\Controllers\ReviewAPIController;
+use App\Http\Controllers\ProductAPIController;
+use App\Http\Controllers\CustomerAPIController;
+use App\Http\Controllers\SearchController;
 
 
 /*
@@ -23,18 +22,33 @@ use App\Http\Controllers\ReviewAPIController;
 |
 */
 
-Route::apiResource('products', ProductAPIController::class);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-Route::apiResource('customer_accounts', CustomerAPIController::class);
+//Authenticating
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/register', [LoginController::class, 'register']);
+Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::apiResource('admin_accounts', AdminAPIController::class);
+//Products
+Route::post('/products', [ProductAPIController::class, 'index']);
+Route::get('/products', [ProductAPIController::class, 'index']);
+Route::get('/products/{id}', [ProductAPIController::class, 'show']);
 
-Route::apiResource('orders', OrderAPIController::class);
+//Search
+Route::get('/search', [SearchController::class, 'search']);
 
-Route::apiResource('employee', EmployeeAPIController::class);
+//Orders
+Route::get('/orders', [OrderAPIController::class, 'index']);
+Route::get('/orders/{id}', [OrderAPIController::class, 'show']);
+Route::post('/orders-image', [OrderAPIController::class, 'store']);
+Route::delete('/orders/{id}', [OrderAPIController::class, 'destroy']);
 
-Route::apiResource('partner', PartnerAPIController::class);
+//customer account
+Route::get('/customer_accounts', [CustomerAPIController::class, 'index']);
+Route::get('/customer_accounts/{id}', [CustomerAPIController::class, 'show']);
+Route::put('/customer_accounts/{id}', [CustomerAPIController::class, 'update']);
+Route::delete('/customer_accounts/{id}', [CustomerAPIController::class, 'destroy']);
 
-Route::apiResource('message', MessageAPIController::class);
-
-Route::apiResource('review', ReviewAPIController::class);
+Route::post('/message', [MessageAPIController::class, 'store']);

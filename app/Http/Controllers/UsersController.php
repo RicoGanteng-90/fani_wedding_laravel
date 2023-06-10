@@ -16,8 +16,7 @@ class UsersController extends Controller
     {
         $customer = Customer::all();
 
-        //return view ('customer_accounts', compact('customer'));
-        return response()->json(['data'=>$customer]);
+        return view ('customer_accounts', compact('customer'));
     }
 
     /**
@@ -47,9 +46,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        //
+        $user = customer::findOrFail($id);
     }
 
     /**

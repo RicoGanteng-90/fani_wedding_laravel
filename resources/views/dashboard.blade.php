@@ -7,7 +7,7 @@
    <title>Beranda</title>
 
    <!-- Logo Title Bar -->
-   <link rel="icon" href="../images/logofanny.png"
+   <link rel="icon" href="{{asset('images/logofanny.png')}}"
    type="image/x-icon" class="LOGO">
 
    <!-- font awesome cdn link  -->

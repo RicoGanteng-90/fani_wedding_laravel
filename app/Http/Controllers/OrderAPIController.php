@@ -16,7 +16,7 @@ class OrderAPIController extends Controller
     {
         $order = order::all();
 
-        return response()->json(['data'=>$order]);
+        return response()->json($order);
     }
 
     /**
@@ -37,7 +37,16 @@ class OrderAPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+            $request->file('image')->move('images/', $imageName);
+
+            $order = new order();
+            $order->image = $imageName;
+            $order->save();
+
+            return response()->json($order);
+        }
     }
 
     /**
@@ -48,7 +57,9 @@ class OrderAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $order=order::findOrFail($id);
+
+        return response()->json($order);
     }
 
     /**
@@ -82,6 +93,17 @@ class OrderAPIController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order = Order::findOrFail($id);
+
+
+    if ($order->proof_payment) {
+        $oldFilePath = public_path('bukti/'.$order->proof_payment);
+        if (file_exists($oldFilePath)) {
+            unlink($oldFilePath);
+        }
+    }
+    $order->delete();
+
+    return response()->json($order);
     }
 }

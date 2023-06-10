@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerAPIController extends Controller
 {
@@ -16,7 +17,7 @@ class CustomerAPIController extends Controller
     {
         $customer = customer::all();
 
-        return response()->json(['data'=>$customer]);
+        return response()->json($customer);
     }
 
     /**
@@ -37,7 +38,7 @@ class CustomerAPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -48,7 +49,9 @@ class CustomerAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $customer=customer::findOrFail($id);
+
+        return response()->json($customer);
     }
 
     /**
@@ -71,7 +74,16 @@ class CustomerAPIController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = customer::findOrFail($id);
+
+            $customer->name = $request->input('name');
+            $customer->email = $request->input('email');
+            $customer->number = $request->input('number');
+            $customer->address = $request->input('address');
+            $customer->password = hash::make($request->input('password'));
+            $customer->save();
+
+        return response()->json(['data'=>$customer]);
     }
 
     /**
@@ -82,6 +94,10 @@ class CustomerAPIController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer=customer::findOrFail($id);
+
+        $customer->delete();
+
+        return response()->json(['message'=>'Succesfull']);
     }
 }

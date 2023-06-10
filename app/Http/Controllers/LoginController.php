@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\user;
+use App\Models\customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class AdminAPIController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function login(Request $request)
     {
-        $admin = user::all();
+    $credentials = $request->only('email', 'password');
 
-        return response()->json(['data'=>$admin]);
+    $customer = Customer::where('email', $credentials['email'])->first();
+
+    if ($customer && Hash::check($credentials['password'], $customer->password)) {
+        // Login berhasil
+        return response()->json(['message'=>'Succesfull']);
+    } else {
+        // Login gagal
+        return response()->json(['message'=>'Failed']);
+    }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return response()->json(['message' => 'Logout successful']);
+
     }
 
     /**
@@ -24,9 +42,15 @@ class AdminAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function register(Request $request)
     {
-        //
+        $customer=customer::create($request->all());
+
+        $customer->password = Hash::make($request->password);
+
+        $customer->save();
+
+        return response()->json(['message'=>'succesfull']);
     }
 
     /**

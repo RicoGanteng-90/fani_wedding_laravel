@@ -16,7 +16,7 @@ class ProductAPIController extends Controller
     {
         $product=product::all();
 
-        return response()->json(['data'=>$product]);
+        return response()->json($product);
     }
 
     /**
@@ -37,7 +37,15 @@ class ProductAPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product=Product::create($request->all());
+
+        if ($request->hasFile('image')) {
+            $request->file('image')->move('images/', $request->file('image')->getClientOriginalName());
+            $product->image=$request->file('image')->getClientOriginalName();
+            $product->save();
+        }
+
+        return response()->json($product);
     }
 
     /**
@@ -48,7 +56,9 @@ class ProductAPIController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        return response()->json($product);
     }
 
     /**
