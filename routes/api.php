@@ -53,7 +53,9 @@ Route::put('/customer_accounts/{id}', [CustomerAPIController::class, 'update']);
 Route::delete('/customer_accounts/{id}', [CustomerAPIController::class, 'destroy']);
 
 //message
-Route::post('/message', [MessageAPIController::class, 'index']);
+
+Route::get('/message', [MessageAPIController::class, 'index']);
+Route::post('/message-add', [MessageAPIController::class, 'store']);
 
 //cart
 Route::get('/cart/{customer_id}', [CartController::class, 'index']);
