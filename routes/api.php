@@ -51,4 +51,11 @@ Route::get('/customer_accounts/{id}', [CustomerAPIController::class, 'show']);
 Route::put('/customer_accounts/{id}', [CustomerAPIController::class, 'update']);
 Route::delete('/customer_accounts/{id}', [CustomerAPIController::class, 'destroy']);
 
-Route::post('/message', [MessageAPIController::class, 'store']);
+//message
+Route::post('/message', [MessageAPIController::class, 'index']);
+
+//cart
+Route::get('/cart/{customer_id}', [CartController::class, 'index']);
+Route::post('/cart-add', [CartController::class, 'store']);
+Route::post('/cart-delete/{id}', [CartController::class, 'destroy']);
+Route::post('/cart-find/{id}', [CartController::class, 'show']);

@@ -62,10 +62,7 @@ class MessageAPIController extends Controller
      */
     public function edit($id)
     {
-        $message = message::all();
-
-        //return view('messages', compact('message'));
-        return response()->json($message);
+        //
     }
 
     /**
