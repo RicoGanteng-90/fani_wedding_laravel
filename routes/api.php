@@ -38,7 +38,7 @@ Route::get('/products-add', [ProductAPIController::class, 'store']);
 Route::get('/products/{id}', [ProductAPIController::class, 'show']);
 
 //Search (Mungkin tidak semuanya terpakai/menyesuaikan)
-Route::get('/search', [SearchController::class, 'search']);
+Route::post('/search', [SearchController::class, 'search']);
 
 //Orders (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/orders', [OrderAPIController::class, 'index']);
