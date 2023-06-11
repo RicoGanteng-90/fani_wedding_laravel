@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageAPIController;
 use App\Http\Controllers\ProductAPIController;
 use App\Http\Controllers\CustomerAPIController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CartController;
 
 
 /*
