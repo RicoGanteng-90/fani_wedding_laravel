@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class OrderAPIController extends Controller
 {
@@ -37,16 +38,21 @@ class OrderAPIController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->hasFile('image')) {
-            $imageName = $request->file('image')->getClientOriginalName();
-            $request->file('image')->move('images/', $imageName);
+        $validatedData = $request->validate([
+            'customer_id' => 'integer',
+            'name' => 'required|max:100',
+            'number' => 'required|integer',
+            'email' => 'required',
+            'method' => 'required',
+            'address' => 'required',
+            'total_products' => 'required',
+            'order_time' => 'required',
+            'event_time' => 'required',
+        ]);
 
-            $order = new order();
-            $order->image = $imageName;
-            $order->save();
+        $order=order::create($validatedData);
 
-            return response()->json($order);
-        }
+        $order->save();
     }
 
     /**
@@ -55,9 +61,9 @@ class OrderAPIController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($customer_id)
     {
-        $order=order::findOrFail($id);
+        $order = order::where('customer_id', $customer_id)->get();
 
         return response()->json($order);
     }
@@ -82,8 +88,19 @@ class OrderAPIController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+
+        $order = order::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $myFile = 'images/'.$order->image;
+            if(File::exists($myFile))
+            {
+                File::delete($myFile);
+            }
+
+            $request->file('image')->move('images/', $request->file('image')->getClientOriginalName());
+            $order->image=$request->file('image')->getClientOriginalName();
+    }}
 
     /**
      * Remove the specified resource from storage.

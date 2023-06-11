@@ -25,7 +25,7 @@ return new class extends Migration
             $table->dateTime('order_time');
             $table->dateTime('event_time');
             $table->string('order_status')->nullable();
-            $table->string('proof_payment');
+            $table->string('proof_payment')->nullable();
             $table->string('payment_status')->nullable();
             $table->timestamps();
 

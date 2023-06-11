@@ -42,14 +42,15 @@ Route::post('/search', [SearchController::class, 'search']);
 
 //Orders (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/orders', [OrderAPIController::class, 'index']);
-Route::get('/orders-show/{id}', [OrderAPIController::class, 'show']);
-Route::post('/orders-image', [OrderAPIController::class, 'store']);
-Route::delete('/orders/{id}', [OrderAPIController::class, 'destroy']);
+Route::get('/orders-show/{customer_id}', [OrderAPIController::class, 'show']);
+Route::post('/orders-add', [OrderAPIController::class, 'store']);
+Route::put('/orders-image', [OrderAPIController::class, 'update']);
+Route::delete('/orders-delete/{id}', [OrderAPIController::class, 'destroy']);
 
 //customer account (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/customer_accounts', [CustomerAPIController::class, 'index']);
 Route::get('/customer_accounts/{id}', [CustomerAPIController::class, 'show']);
-Route::put('/customer_accounts/{id}', [CustomerAPIController::class, 'update']);
+Route::put('/customer_accounts-update/{id}', [CustomerAPIController::class, 'update']);
 Route::delete('/customer_accounts/{id}', [CustomerAPIController::class, 'destroy']);
 
 //message (Mungkin tidak semuanya terpakai/menyesuaikan)

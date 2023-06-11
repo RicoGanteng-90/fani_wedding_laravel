@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('password');
             $table->string('email', 100);
-            $table->integer('number');
+            $table->string('number');
             $table->enum('role', ['admin', 'user'])->nullable();
             $table->string('address', 100);
             $table->timestamps();
