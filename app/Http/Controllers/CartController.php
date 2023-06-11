@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
     function store(Request $request){
-        // Validate the request data
+
         $validatedData = $request->validate([
+            'customer_id' => 'integer',
+            'pid' => 'integer',
             'name' => 'required|max:100',
             'price' => 'required|integer',
             'quantity' => 'required|integer',
