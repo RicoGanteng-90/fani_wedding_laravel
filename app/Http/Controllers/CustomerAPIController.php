@@ -76,14 +76,29 @@ class CustomerAPIController extends Controller
     {
         $customer = customer::findOrFail($id);
 
+        if ($request->has('name')) {
             $customer->name = $request->input('name');
+        }
+
+        if ($request->has('email')) {
             $customer->email = $request->input('email');
+        }
+
+        if ($request->has('number')) {
             $customer->number = $request->input('number');
+        }
+
+        if ($request->has('address')) {
             $customer->address = $request->input('address');
+        }
+
+        if ($request->has('password')) {
             $customer->password = hash::make($request->input('password'));
+        }
+
             $customer->save();
 
-        return response()->json(['data'=>$customer]);
+        return response()->json($customer);
     }
 
     /**

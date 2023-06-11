@@ -32,32 +32,31 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-//Products
+//Products (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::post('/products', [ProductAPIController::class, 'index']);
-Route::get('/products', [ProductAPIController::class, 'index']);
+Route::get('/products-add', [ProductAPIController::class, 'store']);
 Route::get('/products/{id}', [ProductAPIController::class, 'show']);
 
-//Search
+//Search (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/search', [SearchController::class, 'search']);
 
-//Orders
+//Orders (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/orders', [OrderAPIController::class, 'index']);
-Route::get('/orders/{id}', [OrderAPIController::class, 'show']);
+Route::get('/orders-show/{id}', [OrderAPIController::class, 'show']);
 Route::post('/orders-image', [OrderAPIController::class, 'store']);
 Route::delete('/orders/{id}', [OrderAPIController::class, 'destroy']);
 
-//customer account
+//customer account (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/customer_accounts', [CustomerAPIController::class, 'index']);
 Route::get('/customer_accounts/{id}', [CustomerAPIController::class, 'show']);
 Route::put('/customer_accounts/{id}', [CustomerAPIController::class, 'update']);
 Route::delete('/customer_accounts/{id}', [CustomerAPIController::class, 'destroy']);
 
-//message
-
+//message (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/message', [MessageAPIController::class, 'index']);
 Route::post('/message-add', [MessageAPIController::class, 'store']);
 
-//cart
+//cart (Mungkin tidak semuanya terpakai/menyesuaikan)
 Route::get('/cart/{customer_id}', [CartController::class, 'index']);
 Route::post('/cart-add', [CartController::class, 'store']);
 Route::post('/cart-delete/{id}', [CartController::class, 'destroy']);
