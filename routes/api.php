@@ -33,8 +33,8 @@ Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 //Products (Mungkin tidak semuanya terpakai/menyesuaikan)
-Route::post('/products', [ProductAPIController::class, 'index']);
-Route::get('/products-add', [ProductAPIController::class, 'store']);
+Route::get('/products', [ProductAPIController::class, 'index']);
+Route::post('/products-add', [ProductAPIController::class, 'store']);
 Route::get('/products/{id}', [ProductAPIController::class, 'show']);
 
 //Search
